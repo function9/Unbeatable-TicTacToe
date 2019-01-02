@@ -165,12 +165,14 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
         // Play X in the best spot
         void nextMove(int pos) {
             int r=findRow(X);  // complete a row of X and win if possible
-            if (r<0)
-                r=findRow(O);  // or try to block O from winning
+            if(r<0)// or try to block O from winning
+                r = block();
             if (r<0) {  // otherwise move randomly
+                //if player starts with center pick a corner
                 if (turn == 0 && pos == 4){
                     r = 0;
                 }
+                //else pick center
                 else if (turn == 0 && pos != 4){
                     r = 4;
                 }
@@ -208,6 +210,58 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                 return a;
             return -1;
         }
+        //checks for potential player wins and blocks it
+        int block(){
+            if(position[2] == O && position[8] == O && position[5] == BLANK)
+                return 5;
+            if(position[5] == O && position[8] == O && position[2] == BLANK)
+                return 2;
+            if(position[2] == O && position[5] == O && position[8] == BLANK)
+                return 8;
+            if(position[0] == O && position[6] == O && position[3] == BLANK)
+                return 3;
+            if(position[3] == O && position[6] == O && position[0] == BLANK)
+                return 0;
+            if(position[3] == O && position[0] == O && position[6] == BLANK)
+                return 6;
+            if(position[1] == O && position[4] == O && position[7] == BLANK)
+                return 7;
+            if(position[1] == O && position[7] == O && position[4] == BLANK)
+                return 4;
+            if(position[7] == O && position[4] == O && position[1] == BLANK)
+                return 1;
+            if(position[0] == O && position[4] == O && position[8] == BLANK)
+                return 8;
+            if(position[0] == O && position[8] == O && position[4] == BLANK)
+                return 4;
+            if(position[8] == O && position[4] == O && position[0] == BLANK)
+                return 0;
+            if(position[2] == O && position[4] == O && position[6] == BLANK)
+                return 6;
+            if(position[2] == O && position[6] == O && position[4] == BLANK)
+                return 4;
+            if(position[6] == O && position[4] == O && position[2] == BLANK)
+                return 2;
+            if(position[0] == O && position[1] == O && position[2] == BLANK)
+                return 2;
+            if(position[0] == O && position[2] == O && position[1] == BLANK)
+                return 1;
+            if(position[1] == O && position[2] == O && position[0] == BLANK)
+                return 0;
+            if(position[3] == O && position[4] == O && position[5] == BLANK)
+                return 5;
+            if(position[3] == O && position[5] == O && position[4] == BLANK)
+                return 4;
+            if(position[5] == O && position[4] == O && position[3] == BLANK)
+                return 3;
+            if(position[6] == O && position[7] == O && position[8] == BLANK)
+                return 8;
+            if(position[6] == O && position[8] == O && position[7] == BLANK)
+                return 7;
+            if(position[8] == O && position[7] == O && position[6] == BLANK)
+                return 6;
+            return -1;
+        }
 
         // Are all 9 spots filled?
         boolean isDraw() {
@@ -229,7 +283,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             }
             else if (winner==X) {
                 ++losses;
-                result = "I Win!";
+                result = "AI Win!";
             }
             else {
                 result = "Tie";
@@ -237,7 +291,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             }
             if (JOptionPane.showConfirmDialog(null,
                     "You have "+wins+ " wins, "+losses+" losses, "+draws+" draws\n"
-                            +"Play again?", result, JOptionPane.YES_NO_OPTION)
+                            +"Play again?\nYou can never win btw", result, JOptionPane.YES_NO_OPTION)
                     !=JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
