@@ -17,7 +17,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             BLANK, BLANK, BLANK,
             BLANK, BLANK, BLANK};
     private int wins=0, losses=0, draws=0;  // game count by user
-    int turn;
+    int turn, strat;
     // Start the game
     public static void main(String args[]) {
         new TicTacToe();
@@ -174,7 +174,52 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                 }
                 //else pick center
                 else if (turn == 0 && pos != 4){
+                    if(pos == 1 || pos == 3 || pos == 5 || pos ==7)
+                    strat = 1;
                     r = 4;
+                }
+                else if (turn == 1 && strat == 1) {
+                    if (pos == 1 || pos == 3 || pos == 5 || pos == 7) {
+                        if (position[1] == O && position[7] == O)
+                            r = 0;
+                        else if (position[3] == O && position[5] == O)
+                            r = 0;
+                        else if (position[3] == O && position[1] == O)
+                            r = 0;
+                        else if (position[5] == O && position[1] == O)
+                            r = 2;
+                        else if (position[5] == O && position[7] == O)
+                            r = 8;
+                        else if (position[3] == O && position[7] == O)
+                            r = 6;
+                        else {
+                            do
+                                r = random.nextInt(9);
+                            while (position[r] != BLANK);
+                        }
+                    } else if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
+                        if (position[3] == O && position[2] == O)
+                            r = 0;
+                        else if (position[3] == O && position[8] == O)
+                            r = 6;
+                        else if (position[5] == O && position[0] == O)
+                            r = 2;
+                        else if (position[5] == O && position[6] == O)
+                            r = 8;
+                        else if (position[7] == O && position[2] == O)
+                            r = 8;
+                        else if (position[7] == O && position[0] == O)
+                            r = 6;
+                        else if (position[1] == O && position[6] == O)
+                            r = 8;
+                        else if (position[1] == O && position[8] == O)
+                            r = 6;
+                        else {
+                            do
+                                r = random.nextInt(9);
+                            while (position[r] != BLANK);
+                        }
+                    }
                 }
                 else {
                     do
