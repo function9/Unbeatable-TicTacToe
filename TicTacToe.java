@@ -175,11 +175,53 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                 }
                 //else pick center
                 else if (turn == 0 && pos != 4){
-                    if(pos == 1 || pos == 3 || pos == 5 || pos ==7)
-                    strat = 1;
+                    //if edge is picked
+                    if(pos == 1 || pos == 3 || pos == 5 || pos == 7)
+                        strat = 1;
+                    //if corner is picked
+                    if(pos == 0 || pos == 2 || pos == 6 || pos == 8)
+                        strat = 3;
                     r = 4;
                 }
+                //blocking win condition if corner is picked second turn
+                else if (turn == 1 && strat == 3) {
+                    if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
+                        if (position[2] == O && position[6] == O)
+                            r = 1;
+                        else if (position[0] == O && position[8] == O)
+                            r = 7;
+                        else {
+                            do
+                                r = random.nextInt(9);
+                            while (position[r] != BLANK);
+                        }
+                    }
+                    //if edge is picked second turn
+                    else if(position[0] == O && position[7] == O)
+                        r = 6;
+                    else if(position[0] == O && position[5] == O)
+                        r = 2;
+                    else if(position[2] == O && position[3] == O)
+                        r = 0;
+                    else if(position[2] == O && position[7] == O)
+                        r = 8;
+                    else if(position[8] == O && position[1] == O)
+                        r = 2;
+                    else if(position[8] == O && position[3] == O)
+                        r = 6;
+                    else if(position[6] == O && position[1] == O)
+                        r = 0;
+                    else if(position[6] == O && position[5] == O)
+                        r = 8;
+                    else {
+                        do
+                            r = random.nextInt(9);
+                        while (position[r] != BLANK);
+                    }
+                }
+                //blocking win condition if edge is picked second turn
                 else if (turn == 1 && strat == 1) {
+                    //if another edge is picked second turn
                     if (pos == 1 || pos == 3 || pos == 5 || pos == 7) {
                         if (position[1] == O && position[7] == O)
                             r = 0;
@@ -198,7 +240,9 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                                 r = random.nextInt(9);
                             while (position[r] != BLANK);
                         }
-                    } else if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
+                    }
+                    //if corner is picked second turn
+                    else if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
                         if (position[3] == O && position[2] == O)
                             r = 0;
                         else if (position[3] == O && position[8] == O)
@@ -222,6 +266,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                         }
                     }
                 }
+                //blocking win condition if corner is picked second turn
                 else if(turn == 1 && strat == 2){
                     if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
                         if (position[4] == O && position[8] == O)
