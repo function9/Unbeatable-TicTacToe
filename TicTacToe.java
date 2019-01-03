@@ -170,6 +170,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             if (r<0) {  // otherwise move randomly
                 //if player starts with center pick a corner
                 if (turn == 0 && pos == 4){
+                    strat = 2;
                     r = 0;
                 }
                 //else pick center
@@ -219,6 +220,19 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
                                 r = random.nextInt(9);
                             while (position[r] != BLANK);
                         }
+                    }
+                }
+                else if(turn == 1 && strat == 2){
+                    if (pos == 0 || pos == 2 || pos == 6 || pos == 8) {
+                        if (position[4] == O && position[8] == O)
+                            r = 2;
+                        else if (position[4] == O && position[2] == O)
+                            r = 8;
+                    }
+                    else {
+                        do
+                            r = random.nextInt(9);
+                        while (position[r] != BLANK);
                     }
                 }
                 else {
@@ -328,7 +342,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             }
             else if (winner==X) {
                 ++losses;
-                result = "AI Win!";
+                result = "You Lose!";
             }
             else {
                 result = "Tie";
@@ -336,7 +350,7 @@ public class TicTacToe extends JFrame implements ChangeListener, ActionListener 
             }
             if (JOptionPane.showConfirmDialog(null,
                     "You have "+wins+ " wins, "+losses+" losses, "+draws+" draws\n"
-                            +"Play again?\nYou can never win btw", result, JOptionPane.YES_NO_OPTION)
+                            +"Play again?", result, JOptionPane.YES_NO_OPTION)
                     !=JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
